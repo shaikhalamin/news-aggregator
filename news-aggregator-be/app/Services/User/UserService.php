@@ -46,11 +46,6 @@ class UserService
         return User::where('email', $email)->first();
     }
 
-    public function findByUserName(string $username, array $relations = [])
-    {
-        return User::with($relations)->where('username', $username)->first();
-    }
-
     public function updateRefreshToken($id, $token)
     {
         $user = $this->show($id);
@@ -67,7 +62,6 @@ class UserService
     public function searchUser($searchTerm)
     {
         return User::query()
-            ->where('username', 'LIKE', "%{$searchTerm}%")
             ->orWhere('email', 'LIKE', "%{$searchTerm}%")
             ->paginate(50);
     }

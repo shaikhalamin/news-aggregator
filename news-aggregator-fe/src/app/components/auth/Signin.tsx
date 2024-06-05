@@ -15,10 +15,15 @@ import { InputField } from "../common/form/InputField";
 import InputGroupCustomField from "../common/form/InputGroupCustomField";
 import SubmitButton from "../common/form/SubmitButton";
 import { login } from "@/app/api/services/auth";
+import { useRouter } from "next/navigation";
+import FormCustomError from "../common/form/FormCustomError";
+import { setUserSession } from "@/app/api/local-storage";
 
 const Signin = () => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [revealed, setRevealed] = useState<boolean>(false);
+  const router = useRouter();
+  const [customeServerError, setCustomServerError] = useState<string>("");
 
   const reactHookFormMethods = useForm<SignInFormFields>({
     resolver: yupResolver(signInSchema),
@@ -34,6 +39,10 @@ const Signin = () => {
 
   const errorMessage = getErrorMessage(errors);
 
+  const onCustomError = (message: string) => {
+    setCustomServerError(message);
+  };
+
   const onSubmit = async (data: SignInFormFields) => {
     const singinPayload = {
       ...data,
@@ -43,10 +52,19 @@ const Signin = () => {
       setSubmitLoading(true);
       const signIn = await login(singinPayload);
       setSubmitLoading(false);
-      console.log("signIn ", signIn?.data);
+      console.log(signIn?.data);
+      if (signIn?.status === 200) {
+        reset();
+        setUserSession(signIn?.data?.data);
+        router.push("/");
+      }
     } catch (error: any) {
       setSubmitLoading(false);
-      populateServerValidationError<SignInFormFields>(error, setError);
+      populateServerValidationError<SignInFormFields>(
+        error,
+        setError,
+        onCustomError
+      );
     }
   };
 
@@ -85,6 +103,10 @@ const Signin = () => {
                     </Col>
                   </Row>
                   <FormProvider {...reactHookFormMethods}>
+                    <FormCustomError
+                      errorMessage={customeServerError}
+                      hookErrors={errors}
+                    />
                     <Form className="py-2" onSubmit={handleSubmit(onSubmit)}>
                       <Row className="mb-2">
                         <Col md="12">
