@@ -3,7 +3,7 @@ FROM php:8.2-fpm
 
 WORKDIR /var/www/html
 
-RUN apt update && apt install -y zlib1g-dev libicu-dev libzip-dev zip unzip libpng-dev libssl-dev pkg-config
+RUN apt update && apt install -y zlib1g-dev libicu-dev libzip-dev zip unzip libpng-dev libssl-dev pkg-config supervisor
 
 RUN docker-php-ext-install -j$(nproc) gd
 RUN docker-php-ext-install zip intl pdo pdo_mysql

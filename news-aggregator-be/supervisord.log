@@ -1,0 +1,22 @@
+2024-06-06 22:06:46,175 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2024-06-06 22:06:46,177 INFO supervisord started with pid 1
+2024-06-06 22:06:47,179 INFO spawned: 'laravel-scheduler' with pid 7
+2024-06-06 22:06:47,180 INFO spawned: 'laravel-worker_00' with pid 8
+2024-06-06 22:06:47,344 WARN exited: laravel-scheduler (exit status 0; not expected)
+2024-06-06 22:06:48,346 INFO spawned: 'laravel-scheduler' with pid 15
+2024-06-06 22:06:48,346 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 22:06:48,510 WARN exited: laravel-scheduler (exit status 0; not expected)
+2024-06-06 22:06:50,518 INFO spawned: 'laravel-scheduler' with pid 18
+2024-06-06 22:06:50,704 WARN exited: laravel-scheduler (exit status 0; not expected)
+2024-06-06 22:06:51,400 INFO exited: laravel-worker_00 (exit status 0; expected)
+2024-06-06 22:06:52,403 INFO spawned: 'laravel-worker_00' with pid 21
+2024-06-06 22:06:53,405 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 22:06:54,407 INFO spawned: 'laravel-scheduler' with pid 26
+2024-06-06 22:06:54,561 WARN exited: laravel-scheduler (exit status 0; not expected)
+2024-06-06 22:06:55,563 INFO gave up: laravel-scheduler entered FATAL state, too many start retries too quickly
+2024-06-06 22:06:56,570 INFO exited: laravel-worker_00 (exit status 0; expected)
+2024-06-06 22:06:57,573 INFO spawned: 'laravel-worker_00' with pid 29
+2024-06-06 22:06:58,575 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2024-06-06 22:07:01,734 INFO exited: laravel-worker_00 (exit status 0; expected)
+2024-06-06 22:07:02,736 INFO spawned: 'laravel-worker_00' with pid 34
+2024-06-06 22:07:03,737 INFO success: laravel-worker_00 entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)

@@ -21,7 +21,7 @@ services:
       - news-network
 
   aggregator_db:
-    image: mysql:5.7
+    image: mysql:latest
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 12345678
@@ -31,6 +31,20 @@ services:
     container_name: aggregator_db_container
     ports:
       - "3330:3306"
+    networks:
+      - news-network
+
+  supervisor:
+    build:
+      context: ./news-aggregator-be
+      dockerfile: Dockerfile
+    container_name: laravel-supervisor
+    command: supervisord -c /etc/supervisor/supervisord.conf
+    volumes:
+      - ./news-aggregator-be:/var/www/html
+      - ./supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
+    depends_on:
+      - backend-service
     networks:
       - news-network
 
