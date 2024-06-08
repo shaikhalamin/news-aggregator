@@ -13,19 +13,27 @@ echo "New docker-compose build started ..."
 echo "Please wait for a while to build with no cache ...."
 echo "Run container with detach mode ...."
 docker-compose up --build -d
-echo "Generating new backend app key"
+echo "Generating new backend app key ...."
 docker exec -it backend-container php artisan key:generate
 
 # echo "Backend config clearing ..."
 docker exec -it backend-container php artisan config:clear
 # echo "Backend cache clearing ..."
 docker exec -it backend-container php artisan cache:clear
+docker exec -it backend-container php artisan config:cache
 echo "Waiting for MySQL db container ready ......\n"
 sleep 15
 echo "Migrating backend schema"
 docker exec -it backend-container php artisan migrate:fresh
 echo "Generating demo seed data"
 docker exec -it backend-container php artisan db:seed
+
+docker exec -it backend-container php artisan key:generate
+
+docker exec -it laravel-supervisor php artisan key:generate
+
+# Fetch news feed
+# docker exec -it backend-container php artisan newsfeed:fetch
 
 # echo "Running lint on frontend container"
 # docker exec -it frontend-container npm run lint

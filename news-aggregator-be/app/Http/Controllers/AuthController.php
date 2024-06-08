@@ -28,12 +28,13 @@ class AuthController extends AbstractApiController
         $user = $this->userService->findByEmail($payload['email']);
 
         if (!$user || !Hash::check($payload['password'], $user->password)) {
-            $errorResponse = [
-                'status' => false,
+
+            $response = [
                 'message' => 'Email or Password did not match !',
+                'errors' => []
             ];
 
-            return $this->apiErrorResponse($errorResponse, RESPONSE::HTTP_UNAUTHORIZED);
+            return $this->apiErrorResponse($response, RESPONSE::HTTP_UNAUTHORIZED);
         }
 
         $loginResult = $this->authService->createUserToken($user);
@@ -69,12 +70,12 @@ class AuthController extends AbstractApiController
         $userToken = $this->authService->reGenerateUserToken($refreshToken);
 
         if (is_null($userToken)) {
-            $errorResponse = [
-                'status' => false,
+            $response = [
                 'message' => 'Token not found',
+                'errors' => []
             ];
 
-            return $this->apiErrorResponse($errorResponse, RESPONSE::HTTP_UNAUTHORIZED);
+            return $this->apiErrorResponse($response, RESPONSE::HTTP_UNAUTHORIZED);
         }
 
         return $userToken;

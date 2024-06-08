@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('user_preferences', function (Blueprint $table) {
             $table->id();
-            $table->string('source');
+            $table->string('source')->unique();
             $table->json('metadata')->nullable();   // ['categories' => ['technology','science','news'], 'authors' => ['Janila', 'Hert Rebby']];
-            $table->foreignId('user_id')->constrained(
+            $table->foreignId('user_id')->nullable()->constrained(
                 table: 'users',
                 indexName: 'user_preferences_user_id'
             );

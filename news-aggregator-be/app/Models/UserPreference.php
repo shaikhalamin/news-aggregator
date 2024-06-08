@@ -9,6 +9,16 @@ class UserPreference extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'metadata' => 'array',
+    ];
+
+    protected $fillable = [
+        'source',
+        'metadata',
+        'user_id'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

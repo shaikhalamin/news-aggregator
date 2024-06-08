@@ -14,16 +14,19 @@ return new class extends Migration
         Schema::create('user_feeds', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->text('content')->nullable();
             $table->text('content_html')->nullable();
             $table->string('image_url')->nullable();
             $table->string('author')->nullable();
             $table->string('news_url')->nullable();
+            $table->string('news_api_url')->nullable();
             $table->string('source');
+            $table->string('response_source');
+            $table->boolean('is_topstories')->nullable()->default(false);  
             $table->string('category')->nullable();
             $table->dateTime('published_at')->nullable();
-            $table->foreignId('user_id')->constrained(
+            $table->foreignId('user_id')->nullable()->constrained(
                 table: 'users',
                 indexName: 'user_feeds_user_id'
             );

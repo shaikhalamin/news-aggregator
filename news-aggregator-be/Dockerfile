@@ -18,6 +18,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 RUN composer install
 RUN php artisan key:generate
+RUN chown -R www-data:www-data /var/www/html/storage/logs/
 
 EXPOSE 9000
 CMD ["php", "artisan", "serve", "--host", "0.0.0.0", "--port=8000"]

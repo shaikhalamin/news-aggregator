@@ -2,71 +2,75 @@
 
 namespace App\Services\Aggregator;
 
+use App\Factories\Interfaces\NewsApiInterface;
+use Illuminate\Support\Facades\Log;
 use jcobhams\NewsApi\NewsApi;
+use Throwable;
 
-class NewsApiOrg
+class NewsApiOrg implements NewsApiInterface
 {
 
-    private $newsApi;
-
-    public function __construct()
+    public function __construct(private NewsApi $newsApi)
     {
-        $this->newsApi = new NewsApi('4ec3d88439444a87b62b0adf53981e58');
     }
 
-
-    public function getEverything($params = [])
+    public function all($params = [])
     {
-        $q = $params['q'] ?? null;
-        $sources = $params['sources'] ?? null;
-        $domains  = $params['domains'] ?? null;
-        $exclude_domains =  $params['exclude_domains'] ?? null;
-        $from = $params['from'] ?? null;
-        $to = $params['to'] ?? null;
-        $language = $params['language'] ?? null;
-        $sort_by = $params['sort_by'] ?? null;
-        $page_size = $params['page_size'] ?? null;
-        $page = $params['page'] ?? null;
-        $all_articles = $this->newsApi
-            ->getEverything(
-                $q,
-                $sources,
-                $domains,
-                $exclude_domains,
-                $from,
-                $to,
-                $language,
-                $sort_by,
-                $page_size,
-                $page
-            );
+        Log::info('Fetching [NewsApiOrg]: all api with data started ===> : ');
+        try {
+
+            $q = $params['q'] ?? null;
+            $sources = $params['sources'];
+            $domains  = $params['domains'] ?? null;
+            $exclude_domains =  $params['exclude_domains'] ?? null;
+            $from = $params['from'] ?? null;
+            $to = $params['to'] ?? null;
+            $language = $params['language'] ?? null;
+            $sort_by = $params['sort_by'] ?? null;
+            $page_size = $params['page_size'] ?? null;
+            $page = $params['page'] ?? null;
+            return $this->newsApi
+                ->getEverything(
+                    $q,
+                    $sources,
+                    $domains,
+                    $exclude_domains,
+                    $from,
+                    $to,
+                    $language,
+                    $sort_by,
+                    $page_size,
+                    $page
+                );
+        } catch (Throwable $th) {
+
+            Log::error('[GuardianApi]: all api call error  ===> : ' . $th->getMessage());
+            return [];
+        }
     }
 
-    public function getTopHeadlines($params = [])
+    public function headlines($params = [])
     {
-
-        $q = $params['q'] ?? null;
-        $sources = $params['sources'] ?? null;
-        $country = $params['country'] ?? null;
-        $category = $params['category'] ?? null;
-        $page_size = $params['page_size'] ?? null;
-        $page = $params['page'] ?? null;
-        $top_headlines = $this->newsApi
-            ->getTopHeadlines(
-                $q,
-                $sources,
-                $country,
-                $category,
-                $page_size,
-                $page
-            );
-    }
-
-    public function getSources($params = [])
-    {
-        $category = $params['category'] ?? null;
-        $language = $params['language'] ?? null;
-        $country = $params['country'] ?? null;
-        $sources = $this->newsApi->getSources($category, $language, $country);
+        Log::info('Fetching [NewsApiOrg]: headlines api with data started ===> : ');
+        try {
+            $q = $params['q'] ?? null;
+            $sources = $params['sources'];
+            $country = $params['country'] ?? null;
+            $category = $params['category'] ?? null;
+            $page_size = $params['page_size'] ?? null;
+            $page = $params['page'] ?? null;
+            return $this->newsApi
+                ->getTopHeadlines(
+                    $q,
+                    $sources,
+                    $country,
+                    $category,
+                    $page_size,
+                    $page
+                );
+        } catch (Throwable $th) {
+            Log::error('[GuardianApi]: headlines api call error  ===> : ' . $th->getMessage());
+            return [];
+        }
     }
 }

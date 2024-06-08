@@ -5,24 +5,27 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserFeedRequest;
 use App\Http\Requests\UpdateUserFeedRequest;
 use App\Models\UserFeed;
+use App\Services\UserFeed\UserFeedService;
+use Symfony\Component\HttpFoundation\Response as RESPONSE;
 
-class UserFeedController extends Controller
+class UserFeedController extends AbstractApiController
 {
+
+    public function __construct(private UserFeedService $userFeedService)
+    {
+    }
+
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $response = $this->userFeedService->list();
+
+        return $this->apiSuccessResponse($response, RESPONSE::HTTP_OK);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.

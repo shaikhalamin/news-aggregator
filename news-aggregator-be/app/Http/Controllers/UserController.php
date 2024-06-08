@@ -47,7 +47,9 @@ class UserController extends AbstractApiController
      */
     public function show(User $user)
     {
-        return $this->apiSuccessResponse($user, RESPONSE::HTTP_OK);
+        $response = $this->userService->show($user->id);
+
+        return $this->apiSuccessResponse($response, RESPONSE::HTTP_OK);
     }
 
     /**

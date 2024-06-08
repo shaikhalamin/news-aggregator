@@ -14,9 +14,12 @@ services:
       - "9000:8000"
     volumes:
       - ./news-aggregator-be:/var/www/html
+      - ./news-aggregator-be/storage:/var/www/html/storage
       - /var/www/html/vendor
     depends_on:
       - aggregator_db
+    environment:
+      - TZ=Asia/Dhaka
     networks:
       - news-network
 
@@ -45,6 +48,8 @@ services:
       - ./supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
     depends_on:
       - backend-service
+    environment:
+      - TZ=Asia/Dhaka
     networks:
       - news-network
 

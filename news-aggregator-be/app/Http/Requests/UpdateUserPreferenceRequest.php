@@ -11,7 +11,7 @@ class UpdateUserPreferenceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateUserPreferenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'metadata' => 'sometimes|required|array',
+            'metadata.categories' => 'sometimes|required|array|min:1',
+            'metadata.categories.*' => 'sometimes|required|string|max:255',
+            'metadata.authors' => 'sometimes|required|array|min:1',
+            'metadata.authors.*' => 'sometimes|required|string|max:255',
+            'user_id' => 'sometimes|required|numeric'
         ];
     }
 }

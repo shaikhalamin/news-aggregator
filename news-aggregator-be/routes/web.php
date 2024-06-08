@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Command\UserFeedRefreshService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return ["success" => true, "message" => "News Aggregator Api Works", "data" => null];
+});
+
+Route::get('/refresh', function () {
+    $refrsh = (new UserFeedRefreshService())->refresh();
+    //dd(config('news_agrregator.sources'));
+    return ["success" => true, "message" => "UserFeedRefreshService ", "data" => null];
 });
