@@ -30,8 +30,6 @@ docker exec -it backend-container php artisan db:seed
 
 docker exec -it backend-container php artisan key:generate
 
-docker exec -it laravel-supervisor php artisan key:generate
-
 # Fetch news feed
 # docker exec -it backend-container php artisan newsfeed:fetch
 

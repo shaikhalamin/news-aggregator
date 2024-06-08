@@ -1,6 +1,7 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { Col, Container, Row } from "react-bootstrap";
+import HomeComponent from "./components/home/HomeComponent";
 
 export default function Home() {
   return (
@@ -8,7 +9,7 @@ export default function Home() {
       <Container>
         <Row>
           <Col>
-            <h2>Test container</h2>
+            <HomeComponent />
           </Col>
         </Row>
       </Container>

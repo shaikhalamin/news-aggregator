@@ -78,7 +78,7 @@ class AuthController extends AbstractApiController
             return $this->apiErrorResponse($response, RESPONSE::HTTP_UNAUTHORIZED);
         }
 
-        return $userToken;
+        return $this->apiSuccessResponse($userToken, RESPONSE::HTTP_OK);
     }
 
 
