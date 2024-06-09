@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from "react";
 import SingleNewsItem from "./SingleNewsItem";
 import { FilterType } from "@/app/types/feedtypes";
+import { getUserFeed } from "@/app/api/services/feed";
+import { UserFeed } from "@/app/types/user/UserFeed";
 
 const HomeComponent = () => {
-  const [propertyList, setFeedList] = useState([]);
+  const [feedList, setFeedList] = useState<UserFeed[]>([]);
   const [filterClient, setFilterClient] = useState(false);
   const [active, setActive] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -17,9 +19,26 @@ const HomeComponent = () => {
     filters: {},
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getUserFeed()
+      .then((res) => {
+        console.log("response got", res?.data?.data?.data);
+        const responseList = res?.data?.data?.data;
+        setFeedList(responseList);
+      })
+      .catch((err) => {
+        console.log("data fetch error", err);
+      });
+  }, []);
 
-  return <SingleNewsItem />;
+  return (
+    <>
+      {feedList.length > 0 &&
+        feedList.map((feed) => {
+          return <SingleNewsItem feed={feed} key={feed.id} />;
+        })}
+    </>
+  );
 };
 
 export default HomeComponent;

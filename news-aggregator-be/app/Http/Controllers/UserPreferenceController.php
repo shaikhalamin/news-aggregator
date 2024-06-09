@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserPreferenceRequest;
 use App\Http\Requests\UpdateUserPreferenceRequest;
+use App\Jobs\FetchUserFeedJob;
 use App\Models\UserPreference;
 use App\Services\Preference\UserPreferenceService;
 use Symfony\Component\HttpFoundation\Response as RESPONSE;
@@ -32,6 +33,7 @@ class UserPreferenceController extends AbstractApiController
     public function store(StoreUserPreferenceRequest $request)
     {
         $response = $this->userPreferenceService->create($request->validated());
+        dispatch(new FetchUserFeedJob($$request->user_id));
 
         return $this->apiSuccessResponse($response, RESPONSE::HTTP_CREATED);
     }

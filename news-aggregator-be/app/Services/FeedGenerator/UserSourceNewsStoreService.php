@@ -24,15 +24,15 @@ class UserSourceNewsStoreService
             $params = ['sources' => $newsSource];
             Log::info('[UserSourceNewsStoreService]: internal source news calling  ===> : ' . $newsSource);
 
-            // if ($headlineFetchAble) {
-            //     //fetching and saving headlines
-            //     $fetchHeadLine = $sourceFactory->headlines($params);
-            //     $newsStoreFactory->store($userId, $fetchHeadLine, $headlineFetchAble);
-            // }
+            if ($headlineFetchAble) {
+                //fetching and saving headlines
+                $fetchHeadLine = $sourceFactory->headlines($params);
+                $newsStoreFactory->store($userId, $fetchHeadLine, $headlineFetchAble);
+            }
             // //fetching and saving all 
             $fetchAll = $sourceFactory->all($params);
 
-            dd($fetchAll);
+            //dd($fetchAll);
             $newsStoreFactory->store($userId, $fetchAll, false);
         }
     }
