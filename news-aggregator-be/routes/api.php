@@ -25,5 +25,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/refresh', [AuthController::class, 'refresh']);
 Route::apiResource('users', UserController::class);
-Route::apiResource('user-preferences', UserPreferenceController::class);
-Route::apiResource('user-feeds', UserFeedController::class);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::apiResource('user-preferences', UserPreferenceController::class);
+    Route::apiResource('user-feeds', UserFeedController::class);
+});

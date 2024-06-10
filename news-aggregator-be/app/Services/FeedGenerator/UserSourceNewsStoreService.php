@@ -9,16 +9,16 @@ use Throwable;
 
 class UserSourceNewsStoreService
 {
-    public function storeNews($userId, $preference)
+    public function storeNews($userId, $preference, $preferenceType)
     {
-        Log::info('[UserSourceNewsStoreService]: processing source preference  ===> : ' . $preference->source);
-        $sourceConfig = config('news_agrregator.sources' . '.' . $preference->source);
-        $sourceFactory = NewsApiFactory::create($preference->source);
+        Log::info('[UserSourceNewsStoreService]: processing source preference  ===> : ' . $preference);
+        $sourceConfig = config('news_agrregator.sources' . '.' . $preference);
+        $sourceFactory = NewsApiFactory::create($preference);
         $newsSources = $sourceConfig['news_sources'];
 
         $headlineFetchAble = $sourceConfig['fetch_headline'];
 
-        $newsStoreFactory = ResponseStoreFactory::create($preference->source);
+        $newsStoreFactory = ResponseStoreFactory::create($preference);
 
         foreach ($newsSources as $newsSource) {
             $params = ['sources' => $newsSource];

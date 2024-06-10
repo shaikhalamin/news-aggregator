@@ -13,18 +13,14 @@ class StoreUserSourceNewsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-
-    private int $userId;
-
-    private $preference;
-
     /**
      * Create a new job instance.
      */
-    public function __construct($userId, $preference)
+    public function __construct(private int $userId, private string $preference, private string $preferenceType)
     {
-        $this->userId = $userId;
-        $this->preference = $preference;
+        // $this->userId = $userId;
+        // $this->preference = $preference;
+        // $this->preferenceType = $preferenceType;
     }
 
     /**
@@ -32,6 +28,6 @@ class StoreUserSourceNewsJob implements ShouldQueue
      */
     public function handle(UserSourceNewsStoreService $userSourceNewsStoreService): void
     {
-        $userSourceNewsStoreService->storeNews($this->userId, $this->preference);
+        $userSourceNewsStoreService->storeNews($this->userId, $this->preference, $this->preferenceType);
     }
 }

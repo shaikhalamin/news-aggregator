@@ -8,13 +8,16 @@ class UserPreferenceService
 {
     public function list()
     {
-
         return UserPreference::orderBy('updated_at', 'desc')->get();
     }
 
-    public function create(array $data)
+    public function create(array $data, int $userId)
     {
-        return UserPreference::create($data);
+        $payload = [
+            ...$data,
+            'user_id' => $userId
+        ];
+        return UserPreference::create($payload);
     }
 
     public function show(int $id)

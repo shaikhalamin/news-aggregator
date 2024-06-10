@@ -22,7 +22,7 @@ docker exec -it backend-container php artisan key:generate
 docker exec -it backend-container php artisan config:clear
 # echo "Backend cache clearing ..."
 docker exec -it backend-container php artisan cache:clear
-# docker exec -it backend-container php artisan config:cache
+docker exec -it backend-container php artisan optimize:clear 
 echo "Waiting for MySQL db container ready ......\n"
 sleep 15
 echo "Migrating backend schema"
@@ -38,4 +38,4 @@ docker exec -it backend-container php artisan key:generate
 # echo "Running lint on frontend container"
 # docker exec -it frontend-container npm run lint
 
-echo "Please visit http://localhost:7890 to visit the app"
+echo "Please click http://localhost:7890 to visit the app"

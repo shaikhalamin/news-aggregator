@@ -2,7 +2,7 @@
 
 namespace App\Exceptions;
 
-
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -60,6 +60,12 @@ class Handler extends ExceptionHandler
                 $errors = $e->errors();
 
                 return response()->json(['message' => $message, 'errors' => $errors], $e->status);
+            }
+
+            if ($e instanceof AuthenticationException) {
+                $message = $e->getMessage();
+                $errors = [];
+                return response()->json(['message' => $message, 'errors' => $errors], 401);
             }
 
             if ($e instanceof HttpException) {

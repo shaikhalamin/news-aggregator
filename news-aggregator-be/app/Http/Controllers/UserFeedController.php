@@ -21,7 +21,8 @@ class UserFeedController extends AbstractApiController
      */
     public function index()
     {
-        $response = $this->userFeedService->list();
+        $userId = auth()->user()->id;
+        $response = $this->userFeedService->list($userId);
 
         return $this->apiSuccessResponse($response, RESPONSE::HTTP_OK);
     }

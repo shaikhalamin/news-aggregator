@@ -3,6 +3,7 @@
 namespace App\Services\FeedGenerator;
 
 use App\Jobs\StoreUserSourceNewsJob;
+use App\Services\Aggregator\AggregatorType;
 use App\Services\User\UserService;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -16,17 +17,35 @@ class NewsFeedGeneratorService
     {
         try {
             $user  = $this->userService->show($userId, ['preferences']);
-            Log::info('[FetchUserNewsFeedService]: first name  ===> : ' . $user->first_name);
+            if (!$user) {
+                return;
+            }
+            Log::info('[NewsFeedGeneratorService]: first name  ===> : ' . $user->first_name);
             $userPreferences = $user->preferences;
 
-            if (!empty($userPreferences)) {
-                foreach ($userPreferences as $preference) {
-                    Log::info('[FetchUserNewsFeedService]: dispatching source preference to store ===> : ' . $preference->source);
-                    dispatch(new StoreUserSourceNewsJob($user->id, $preference));
-                }
+
+            $preferenceList = [
+                AggregatorType::NEWS_API_ORG,
+                AggregatorType::GURDIAN_API,
+                AggregatorType::NYTIMES_API
+            ];
+            Log::info('[NewsFeedGeneratorService]: processing deafult source list ===> : ');
+            foreach ($preferenceList as $preference) {
+                Log::info('[NewsFeedGeneratorService]: dispatching default source preference to store ===> : ' . $preference);
+                dispatch(new StoreUserSourceNewsJob($user->id, $preference, FeedPreferenceType::DEFAULT));
             }
+
+            // if ($userPreferences) {
+            //     foreach ($userPreferences as $preference) {
+            //         Log::info('[NewsFeedGeneratorService]: dispatching source preference to store ===> : ' . $preference->source);
+            //         dispatch(new StoreUserSourceNewsJob($user->id, $preference->source, FeedPreferenceType::PREFERED));
+            //     }
+            // } else {
+            //     Log::info('[NewsFeedGeneratorService]: processing deafult source list ===> : ');
+                
+            // }
         } catch (Throwable $th) {
-            Log::info('[FetchUserNewsFeedService]: [error]:   ===> : ' . $th->getMessage());
+            Log::info('[NewsFeedGeneratorService]: [error]:   ===> : ' . $th->getMessage());
         }
     }
 }

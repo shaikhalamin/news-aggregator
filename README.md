@@ -19,7 +19,7 @@ Step 1: git clone https://github.com/shaikhalamin/news-aggregator.git
 
 Step 2: cd news-aggregator
 
-Step 3: sudo chmod +x setup.sh [Not needed if you can run docker and docker-compose without sudo then just run sh setup.sh ]
+Step 3: sudo chmod +x setup.sh
 
 Step 4: ./setup.sh
 

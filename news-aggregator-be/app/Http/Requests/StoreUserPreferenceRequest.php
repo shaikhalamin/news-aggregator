@@ -28,7 +28,6 @@ class StoreUserPreferenceRequest extends FormRequest
             'metadata.categories.*' => 'sometimes|required|string|max:255',
             'metadata.authors' => 'sometimes|required|array|min:1',
             'metadata.authors.*' => 'sometimes|required|string|max:255',
-            'user_id' => 'sometimes|required|numeric'
         ];
     }
 }

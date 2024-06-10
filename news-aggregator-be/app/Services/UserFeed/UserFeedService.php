@@ -6,10 +6,9 @@ use App\Models\UserFeed;
 
 class UserFeedService
 {
-    public function list()
+    public function list(int $userId)
     {
-
-        return UserFeed::orderBy('updated_at', 'desc')->paginate(50);
+        return UserFeed::where('user_id', $userId)->orderBy('updated_at', 'desc')->paginate(50);
     }
 
     public function create(array $data)

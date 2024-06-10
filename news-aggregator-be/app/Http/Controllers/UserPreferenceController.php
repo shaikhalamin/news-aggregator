@@ -32,8 +32,9 @@ class UserPreferenceController extends AbstractApiController
      */
     public function store(StoreUserPreferenceRequest $request)
     {
-        $response = $this->userPreferenceService->create($request->validated());
-        dispatch(new FetchUserFeedJob($$request->user_id));
+        $userId = auth()->user()->id;
+        $response = $this->userPreferenceService->create($request->validated(), $userId);
+        dispatch(new FetchUserFeedJob($userId));
 
         return $this->apiSuccessResponse($response, RESPONSE::HTTP_CREATED);
     }
