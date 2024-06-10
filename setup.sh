@@ -33,6 +33,10 @@ docker exec -it backend-container php artisan db:seed
 docker exec -it backend-container php artisan key:generate
 
 docker exec -it laravel-supervisor composer install
+docker exec -it laravel-supervisor composer dump-autoload --no-scripts
+
+docker exec -it backend-container chmod 775 -R /var/www/html/
+docker exec -it backend-container chown -R www-data:www-data /var/www/html/
 
 # Fetch news feed
 # docker exec -it backend-container php artisan newsfeed:fetch
