@@ -25,7 +25,7 @@ class GuardianApi implements NewsResponseStoreInterface
                 $payload = [
                     'title' => $article['webTitle'],
                     'description' =>  null,
-                    'content' => $article['fields']['body'],
+                    'content' => $article['fields']['bodyText'],
                     'content_html' => null,
                     'image_url' => $article['fields']['thumbnail'] ?? null,
                     'author' => $article['fields']['byline'] ?? null,

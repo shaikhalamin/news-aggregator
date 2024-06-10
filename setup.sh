@@ -32,10 +32,12 @@ docker exec -it backend-container php artisan db:seed
 
 docker exec -it backend-container php artisan key:generate
 
+docker exec -it laravel-supervisor composer install
+
 # Fetch news feed
 # docker exec -it backend-container php artisan newsfeed:fetch
 
 # echo "Running lint on frontend container"
-# docker exec -it frontend-container npm run lint
+# docker exec -it frontend-container npm i dompurify
 
 echo "Please click http://localhost:7890 to visit the app"

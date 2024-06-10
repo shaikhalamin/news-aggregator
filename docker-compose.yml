@@ -44,7 +44,7 @@ services:
     container_name: laravel-supervisor
     command: supervisord -c /etc/supervisor/supervisord.conf
     volumes:
-      - ./news-aggregator-be:/var/www/html
+      - ./news-aggregator-be:/var/www/html:rw
       - ./supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
     depends_on:
       - backend-service

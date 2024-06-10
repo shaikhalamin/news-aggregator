@@ -59,7 +59,7 @@ const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
               </div>
 
               <div className="ft-14 mt-2 mb-1 text-color-b94">
-                {feed?.content}
+                {feed?.content?.slice(0, 260)}
               </div>
               <div className="mt-2">
                 <Row className="">
