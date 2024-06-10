@@ -22,13 +22,7 @@ class NewsFeedGeneratorService
             }
             Log::info('[NewsFeedGeneratorService]: first name  ===> : ' . $user->first_name);
             $userPreferences = $user->preferences;
-
-            if ($userPreferences) {
-                foreach ($userPreferences as $preference) {
-                    Log::info('[NewsFeedGeneratorService]: dispatching source preference to store ===> : ' . $preference->source);
-                    dispatch(new StoreUserSourceNewsJob($user->id, $preference->source, FeedPreferenceType::PREFERED));
-                }
-            } else {
+            if (!count($userPreferences)) {
                 Log::info('[NewsFeedGeneratorService]: processing deafult source list ===> : ');
                 $preferenceList = [
                     AggregatorType::NEWS_API_ORG,
@@ -39,6 +33,11 @@ class NewsFeedGeneratorService
                 foreach ($preferenceList as $preference) {
                     Log::info('[NewsFeedGeneratorService]: dispatching default source preference to store ===> : ' . $preference);
                     dispatch(new StoreUserSourceNewsJob($user->id, $preference, FeedPreferenceType::DEFAULT));
+                }
+            } else {
+                foreach ($userPreferences as $preference) {
+                    Log::info('[NewsFeedGeneratorService]: dispatching source preference to store ===> : ' . $preference->source);
+                    dispatch(new StoreUserSourceNewsJob($user->id, $preference->source, FeedPreferenceType::PREFERED));
                 }
             }
         } catch (Throwable $th) {

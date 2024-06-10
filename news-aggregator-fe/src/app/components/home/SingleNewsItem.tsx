@@ -3,11 +3,18 @@ import React from "react";
 import { Row, Col, Card, Badge, Stack } from "react-bootstrap";
 import { FaMapMarkerAlt } from "react-icons/fa";
 
+import DOMPurify from "dompurify";
+
 type SingleFeedType = {
   feed: UserFeed;
 };
 
 const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
+  const imgSrc = feed?.image_url
+    ? feed?.image_url
+    : "https://images.unsplash.com/photo-1502772066658-3006ff41449b?q=80&w=1893&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const sanitizedHtmlContent = DOMPurify.sanitize(feed?.content?.slice(0, 450));
+
   return (
     <Row className="py-1 px-1 mt-3">
       <Col md="5" className="mt-1 mb-1">
@@ -15,7 +22,7 @@ const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
           <Card.Body className="position-relative py-0 px-0">
             {/*eslint-disable-next-line @next/next/no-img-element*/}
             <img
-              src={feed.image_url as string}
+              src={imgSrc as string}
               alt={feed.title as string}
               className={`w-100 object-fit`}
               height={250}
@@ -36,7 +43,7 @@ const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
                     xs="12"
                     className="text-start ft-20"
                   >
-                    {feed?.author?.length && (
+                    {feed?.author && (
                       <Stack direction="horizontal" gap={2}>
                         <Badge pill bg="secondary">
                           {feed?.author}
@@ -58,9 +65,15 @@ const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
                 </Row>
               </div>
 
-              <div className="ft-14 mt-2 mb-1 text-color-b94">
+              {/* <div className="ft-14 mt-2 mb-1 text-color-b94">
                 {feed?.content?.slice(0, 260)}
-              </div>
+              </div> */}
+
+              <div
+                dangerouslySetInnerHTML={{ __html: sanitizedHtmlContent }}
+                className="ft-14 mt-2 mb-1 text-color-b94"
+              ></div>
+
               <div className="mt-2">
                 <Row className="">
                   <Col md="12" className="text-start fs-14 fw-bold text-dark">

@@ -20,6 +20,8 @@ return new class extends Migration
                 indexName: 'user_preferences_user_id'
             );
 
+            $table->unique(['user_id', 'source']);
+
             $table->timestamps();
         });
     }
