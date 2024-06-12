@@ -5,6 +5,7 @@ import SingleNewsItem from "./SingleNewsItem";
 import { FilterType } from "@/app/types/feedtypes";
 import { getUserFeed } from "@/app/api/services/feed";
 import { UserFeed } from "@/app/types/user/UserFeed";
+import { FeedFilterComponent } from "./FeedFilterComponent";
 
 const HomeComponent = () => {
   const [feedList, setFeedList] = useState<UserFeed[]>([]);
@@ -22,7 +23,6 @@ const HomeComponent = () => {
   useEffect(() => {
     getUserFeed()
       .then((res) => {
-        console.log("response got", res?.data?.data?.data);
         const responseList = res?.data?.data?.data;
         setFeedList(responseList);
       })
@@ -33,6 +33,7 @@ const HomeComponent = () => {
 
   return (
     <>
+    <FeedFilterComponent />
       {feedList.length > 0 &&
         feedList.map((feed) => {
           return <SingleNewsItem feed={feed} key={feed.id} />;

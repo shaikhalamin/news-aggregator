@@ -1,8 +1,6 @@
 import { UserFeed } from "@/app/types/user/UserFeed";
 import React from "react";
 import { Row, Col, Card, Badge, Stack } from "react-bootstrap";
-import { FaMapMarkerAlt } from "react-icons/fa";
-
 import DOMPurify from "dompurify";
 
 type SingleFeedType = {
@@ -13,7 +11,9 @@ const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
   const imgSrc = feed?.image_url
     ? feed?.image_url
     : "https://images.unsplash.com/photo-1502772066658-3006ff41449b?q=80&w=1893&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const sanitizedHtmlContent = DOMPurify.sanitize(feed?.content?.slice(0, 450));
+
+  const feedContent = feed?.content ? feed?.content?.slice(0, 450) : "";
+  const sanitizedHtmlContent = DOMPurify.sanitize(feedContent);
 
   return (
     <Row className="py-1 px-1 mt-3">
@@ -64,10 +64,6 @@ const SingleNewsItem: React.FC<SingleFeedType> = ({ feed }) => {
                   </Col>
                 </Row>
               </div>
-
-              {/* <div className="ft-14 mt-2 mb-1 text-color-b94">
-                {feed?.content?.slice(0, 260)}
-              </div> */}
 
               <div
                 dangerouslySetInnerHTML={{ __html: sanitizedHtmlContent }}
