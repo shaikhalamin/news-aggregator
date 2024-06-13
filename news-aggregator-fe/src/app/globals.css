@@ -59,3 +59,10 @@ body {
 .object-fit {
   object-fit: cover !important;
 }
+
+.noDecoration,
+.noDecoration:link,
+.noDecoration:visited {
+  text-decoration: none !important;
+  cursor: pointer;
+}

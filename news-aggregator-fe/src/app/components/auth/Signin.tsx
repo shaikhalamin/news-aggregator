@@ -15,14 +15,13 @@ import { InputField } from "../common/form/InputField";
 import InputGroupCustomField from "../common/form/InputGroupCustomField";
 import SubmitButton from "../common/form/SubmitButton";
 import { login } from "@/app/api/services/auth";
-import { useRouter } from "next/navigation";
 import FormCustomError from "../common/form/FormCustomError";
 import { setUserSession } from "@/app/api/local-storage";
+import { FE_BASE } from "@/app/api/api-urls";
 
 const Signin = () => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [revealed, setRevealed] = useState<boolean>(false);
-  const router = useRouter();
   const [customeServerError, setCustomServerError] = useState<string>("");
 
   const reactHookFormMethods = useForm<SignInFormFields>({
@@ -52,11 +51,10 @@ const Signin = () => {
       setSubmitLoading(true);
       const signIn = await login(singinPayload);
       setSubmitLoading(false);
-      console.log(signIn?.data);
       if (signIn?.status === 200) {
         reset();
         setUserSession(signIn?.data?.data);
-        router.push("/");
+        window.location.href = `${FE_BASE}/` as string;
       }
     } catch (error: any) {
       setSubmitLoading(false);

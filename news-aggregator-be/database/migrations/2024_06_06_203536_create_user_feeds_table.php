@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->longText('content')->nullable();
             $table->longText('content_html')->nullable();
-            $table->string('image_url')->nullable();
+            $table->text('image_url')->nullable();
             $table->string('author')->nullable();
             $table->string('news_url')->nullable();
             $table->string('news_api_url')->nullable();

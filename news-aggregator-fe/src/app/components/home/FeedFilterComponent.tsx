@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Row, Col, Card, Container } from "react-bootstrap";
 import { FormProvider, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,6 +9,7 @@ import { InputField } from "../common/form/InputField";
 import { getErrorMessage } from "@/app/utils/auth";
 import CustomDatePicker from "../common/form/CustomDatePicker";
 import SelectField from "../common/form/SelectField";
+import { getNewsCategoriesBySource } from "@/app/api/services/search-filters";
 
 export const FeedFilterComponent = () => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
@@ -45,6 +46,18 @@ export const FeedFilterComponent = () => {
 
   const [categories, setCategories] = useState([]);
 
+  const selectOnChange = (value: string) => {
+    getNewsCategoriesBySource(value).then((response) => {
+      const sourceCategories = response?.data?.data?.map((category: string) => {
+        return {
+          id: category,
+          name: category.charAt(0).toUpperCase() + category.slice(1),
+        };
+      });
+      setCategories(sourceCategories);
+    });
+  };
+
   const onSubmit = async (data: FeedFilterFormFields) => {
     console.log("payload", data);
   };
@@ -52,7 +65,7 @@ export const FeedFilterComponent = () => {
   return (
     <>
       <Container>
-        <Row className="py-2">
+        <Row className="py-5">
           <Col>
             <Card className="border border-0">
               <Card.Body>
@@ -74,6 +87,7 @@ export const FeedFilterComponent = () => {
                             <CustomDatePicker
                               labelText="Start Date"
                               name="startDate"
+                              placeholderText="Select start date"
                               errorMessage={errorMessage("startDate")}
                             />
                           </Col>
@@ -81,6 +95,7 @@ export const FeedFilterComponent = () => {
                             <CustomDatePicker
                               labelText="End Date"
                               name="endDate"
+                              placeholderText="Select end date"
                               errorMessage={errorMessage("endDate")}
                             />
                           </Col>
@@ -91,6 +106,7 @@ export const FeedFilterComponent = () => {
                               labelText="Source"
                               fieldName="source"
                               selectData={sourceNameList}
+                              selectOnChange={selectOnChange}
                               errorMessage={errorMessage("source")}
                             />
                           </Col>

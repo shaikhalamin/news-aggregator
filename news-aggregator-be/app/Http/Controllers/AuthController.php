@@ -50,8 +50,8 @@ class AuthController extends AbstractApiController
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-
+        $user = $request->user();
+        $this->authService->logOut($user);
         $response = null;
 
         return $this->apiSuccessResponse($response, RESPONSE::HTTP_NO_CONTENT);

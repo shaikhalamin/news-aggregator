@@ -21,7 +21,11 @@ class NytimesApi implements NewsResponseStoreInterface
         if (!empty($responseData) && !empty($responseData['response']['docs'])) {
 
             foreach ($responseData['response']['docs'] as $article) {
-                $imageUrl = 'https://www.nytimes.com/' . $article['multimedia'][0]['url'];
+                $imageUrl = '';
+                if (!empty($article['multimedia']) && count($article['multimedia']) > 0) {
+                    $imageUrl =  'https://www.nytimes.com/' . $article['multimedia'][0]['url'];
+                }
+
                 $payload = [
                     'title' => $article['headline']['main'],
                     'description' =>  null,

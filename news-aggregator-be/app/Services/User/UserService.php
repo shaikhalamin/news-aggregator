@@ -47,7 +47,7 @@ class UserService
         return User::where('email', $email)->first();
     }
 
-    public function updateRefreshToken(int $id, string $token)
+    public function updateRefreshToken(int $id, string | null $token)
     {
         $user = $this->show($id);
         $user->update(['refresh_token' => $token]);
