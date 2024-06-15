@@ -10,10 +10,11 @@ import { getErrorMessage } from "@/app/utils/auth";
 import CustomDatePicker from "../common/form/CustomDatePicker";
 import SelectField from "../common/form/SelectField";
 import { getNewsCategoriesBySource } from "@/app/api/services/search-filters";
+import { generateQueryFilterUrl } from "@/app/utils/api";
+import { formatFilterObject } from "@/app/utils/filter";
 
 export const FeedFilterComponent = () => {
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-  const [revealed, setRevealed] = useState<boolean>(false);
 
   const reactHookFormMethods = useForm<FeedFilterFormFields>({
     resolver: yupResolver(FeedFilterSchema),
@@ -59,7 +60,10 @@ export const FeedFilterComponent = () => {
   };
 
   const onSubmit = async (data: FeedFilterFormFields) => {
-    console.log("payload", data);
+    const filterObject  = formatFilterObject(data)
+    const filterUrl = generateQueryFilterUrl(filterObject)
+
+    console.log("filterUrl", filterUrl)
   };
 
   return (
@@ -88,6 +92,7 @@ export const FeedFilterComponent = () => {
                               labelText="Start Date"
                               name="startDate"
                               placeholderText="Select start date"
+                              maxDate={new Date()}
                               errorMessage={errorMessage("startDate")}
                             />
                           </Col>
@@ -96,6 +101,7 @@ export const FeedFilterComponent = () => {
                               labelText="End Date"
                               name="endDate"
                               placeholderText="Select end date"
+                              maxDate={new Date()}
                               errorMessage={errorMessage("endDate")}
                             />
                           </Col>

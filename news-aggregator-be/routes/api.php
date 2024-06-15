@@ -29,6 +29,7 @@ Route::apiResource('users', UserController::class);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/user', [AuthController::class, 'user']);
+    Route::get('/search-filter', [SearchFilterController::class, 'search']);
     Route::get('/news-categories/{source}', [SearchFilterController::class, 'getSourceCategories']);
     Route::apiResource('user-preferences', UserPreferenceController::class);
     Route::apiResource('user-feeds', UserFeedController::class);

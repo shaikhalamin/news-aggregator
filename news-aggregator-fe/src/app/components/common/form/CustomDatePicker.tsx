@@ -6,10 +6,10 @@ import { useFormContext } from "react-hook-form";
 interface DatePickerProps {
   labelText: string;
   name: string;
-  placeholderText: string
+  placeholderText: string;
   errorMessage?: string;
   labelCls?: string;
-  
+  maxDate?: Date | null;
 }
 
 const CustomDatePicker: React.FC<DatePickerProps> = ({
@@ -17,10 +17,11 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
   name,
   errorMessage,
   labelCls,
-  placeholderText
+  placeholderText,
+  maxDate,
 }) => {
   const { register, setValue } = useFormContext();
-  const [datePickerDate, setDatePickerDate] = useState<Date>();
+  const [datePickerDate, setDatePickerDate] = useState();
   return (
     <>
       <Form.Group controlId={name}>
@@ -36,7 +37,9 @@ const CustomDatePicker: React.FC<DatePickerProps> = ({
             setValue(name, date);
           }}
           autoComplete="off"
+          dateFormat="yyyy/MM/dd"
           placeholderText={placeholderText}
+          maxDate={maxDate}
           className={`${errorMessage ? "is-invalid" : ""} rounded-0`}
         />
         {errorMessage && (

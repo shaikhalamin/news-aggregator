@@ -43,7 +43,7 @@ const SelectField: React.FC<SelectFormProps> = ({
         className={errorMessage ? "is-invalid" : ""}
         {...props}
       >
-        <option>--Select--</option>
+        <option value={0}>--Select--</option>
         {selectData.map((item, index) => {
           return (
             <option key={index} value={item.id}>
